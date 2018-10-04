@@ -2,7 +2,7 @@ workflows:
     version: 2
     build_and_test:
         jobs:
-            - build_dev:
+            - build:
                 filters:
                     branches:
                         only: dev
@@ -12,13 +12,13 @@ workflows:
                     branches:
                         only: dev
                 requires:
-                    - build_dev
+                    - build
 
             # - deploy_stage
 
 version: 2
 jobs:
-    build_dev:
+    build:
         working_directory: ~/springboot
         # executer: docker, linux VM, mac VM
         docker:
@@ -68,7 +68,6 @@ jobs:
 
             # Clean Up
             # - run: gradle clean
-
     test_dev:
         working_directory: ~/springboot
         docker:
