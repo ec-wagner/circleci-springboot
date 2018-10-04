@@ -41,7 +41,7 @@ jobs:
                 # fallback to using the latest cache if no exact match is found
                 - dependencies-
 
-            - run: gradle dependencies    # listet sie nur! kein download!
+            #- run: gradle dependencies    # listet sie nur! kein download!
 
             - save_cache:
                 paths:
@@ -52,7 +52,7 @@ jobs:
             - run: gradle test
 
             - store_test_results:
-                path: ~/springboot/build/reports/tests/test/
+                path: ~/springboot/build/test-results/test
                 # index.html hast some interessting reports
                 # think about uploading this files to a http server
 
@@ -60,8 +60,8 @@ jobs:
             - run:
                 name: Run Application
                 command: gradle bootRun
-                no_output_timeout: 1m
-                #background: true
+                # no_output_timeout: 1m
+                background: true
 
             # - run: curl localhost:8080    # should return Hello World
             # here will be actual robot tests - API, GUI
@@ -71,6 +71,8 @@ jobs:
             # - run: gradle bootWar
             - store_artifacts:
                 path: ~/springboot/build/libs/*.war
+            - store_artifacts:
+                path: ~/springboot/build/test-results/test
 
             # Clean Up
             # - run: gradle clean
