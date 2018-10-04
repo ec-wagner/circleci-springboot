@@ -23,11 +23,12 @@ jobs:
         # executer: docker, linux VM, mac VM
         docker:
             - image: circleci/openjdk:8-jdk    # primary image 8-jdk-browsers
-              environment:
-                  POSTGRES_DB: circle_test
-                  # POSTGRES_USER: postgres    (default user)
-
-            - image: circleci/postgres:9-alpine
+              # TEST_DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
+          # - image: circleci/postgres:9-alpine
+          #   environment:
+          #     POSTGRES_USER: postgres
+          #     POSTGRES_DB: circle_test
+          #     POSTGRES_PASSWORD: ""
 
         # build steps
         steps:
@@ -36,16 +37,16 @@ jobs:
             # Download and cache dependencies
             - restore_cache:
                 keys:
-                - v1-dependencies-{{ checksum "build.gradle" }}
+                - dependencies-{{ checksum "build.gradle" }}
                 # fallback to using the latest cache if no exact match is found
-                - v1-dependencies-
+                - dependencies-
 
             - run: gradle dependencies    # listet sie nur! kein download!
 
             - save_cache:
                 paths:
                     - ~/springboot/.gradle
-                key: v1-dependencies-{{ checksum "build.gradle" }}
+                key: dependencies-{{ checksum "build.gradle" }}
 
             # Compile code and run unit tests
             - run: gradle test
@@ -56,7 +57,11 @@ jobs:
                 # think about uploading this files to a http server
 
             # Run application and execute integration tests
-            - run: gradle bootRun
+            - run:
+                name: Run Application
+                command: gradle bootRun
+                background: true
+
             - run: curl localhost:8080    # should return Hello World
             # here will be actual robot tests - API, GUI
 
