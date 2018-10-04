@@ -62,7 +62,7 @@ jobs:
                 command: gradle bootRun
                 background: true
 
-            - run: curl localhost:8080    # should return Hello World
+            # - run: curl localhost:8080    # should return Hello World
             # here will be actual robot tests - API, GUI
 
             # Package Jar/War files and deploy
