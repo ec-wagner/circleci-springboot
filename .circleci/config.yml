@@ -70,9 +70,9 @@ jobs:
             - run: gradle bootJar
             # - run: gradle bootWar
             - store_artifacts:
-                path: ~/springboot/build/libs/*.war
+                path: ~/springboot/build/libs
             - store_artifacts:
-                path: ~/springboot/build/test-results/test
+                path: ~/springboot/build/reports/tests/test
 
             # Clean Up
             # - run: gradle clean
