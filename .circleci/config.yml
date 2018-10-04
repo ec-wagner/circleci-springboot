@@ -60,7 +60,8 @@ jobs:
             - run:
                 name: Run Application
                 command: gradle bootRun
-                background: true
+                no_output_timeout: 1m
+                #background: true
 
             # - run: curl localhost:8080    # should return Hello World
             # here will be actual robot tests - API, GUI
