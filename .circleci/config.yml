@@ -107,8 +107,13 @@ jobs:
             - run: curl localhost:8080    # should return Hello World
                 # here will be actual robot tests - API, GUI
 
-            - store_artifacts:
-                path: ~/springboot/build/reports/tests/test
+            - store_test_results:
+                path: ~/springboot/build/test-results/test
+
+            - persist_to_workspace:
+                root: ~/springboot
+                paths:
+                    - ./*
 
             # Clean Up
             # - run: gradle clean
