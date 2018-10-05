@@ -121,7 +121,7 @@ jobs:
     deploy:
         working_directory: ~/springboot
         docker:
-            - image: busybox
+            - image: circleci/openjdk:8-jdk
         steps:
             - attach_workspace:
                 at: ~/springboot
