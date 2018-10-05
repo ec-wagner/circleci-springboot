@@ -14,6 +14,13 @@ workflows:
                 requires:
                     - build_dev
 
+            - deploy:
+                filters:
+                    branches:
+                        only: dev
+                requires:
+                    - test_dev
+
             # - deploy_stage
 
 version: 2
@@ -49,12 +56,31 @@ jobs:
                 key: dependencies-{{ checksum "build.gradle" }}
 
             # Compile code and run unit tests
-            - run: gradle test
+
+            - run:
+                name: Run Unit Tests
+                command: gradle test
 
             - store_test_results:
                 path: ~/springboot/build/test-results/test
                 # index.html hast some interessting reports
                 # think about uploading this files to a http server
+
+            - persist_to_workspace:
+                root: ~/springboot
+                paths:
+                    - ./*
+
+    test_dev:
+        working_directory: ~/springboot
+        docker:
+            - image: circleci/openjdk:8-jdk
+              environment:
+                  DOCKERIZE_VERSION: v0.6.1
+
+        steps:
+            - attach_workspace:
+                at: ~/springboot
 
             # Run application and execute integration tests
             - run:
@@ -63,25 +89,42 @@ jobs:
                 # no_output_timeout: 1m
                 background: true
 
-            # - run: curl localhost:8080    # should return Hello World
-            # here will be actual robot tests - API, GUI
+            - run:
+                name: install dockerize    # need this to enable waiting for Webserver
+                command:  wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+                          && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+                          && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
-            # Package Jar/War files and deploy
-            - run: gradle bootJar
-            # - run: gradle bootWar
-            - store_artifacts:
-                path: ~/springboot/build/libs
+            - run:
+                name: Wait for Application to start
+                command: dockerize -wait http://localhost:8080 -timeout 1m
+
+            - run:
+                name: Run Integration Tests
+                command: echo "running robot tests"
+
+            - run: curl localhost:8080    # should return Hello World
+                # here will be actual robot tests - API, GUI
+
             - store_artifacts:
                 path: ~/springboot/build/reports/tests/test
 
             # Clean Up
             # - run: gradle clean
-    test_dev:
+
+    deploy:
         working_directory: ~/springboot
         docker:
             - image: busybox
-              environment:
-                  POSTGRES_DB: circle_test
-
         steps:
-            - run: echo "HELLO JAVA"
+            - attach_workspace:
+                at: ~/springboot
+
+            - run:
+                name: Package Jar/War files and deploy
+                command: |
+                    gradle bootJar
+                # gradle bootWar
+
+            - store_artifacts:
+                path: ~/springboot/build/libs
