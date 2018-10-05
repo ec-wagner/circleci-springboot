@@ -18,7 +18,7 @@ workflows:
 
 version: 2
 jobs:
-    build:
+    build_dev:
         working_directory: ~/springboot
         # executer: docker, linux VM, mac VM
         docker:
