@@ -51,7 +51,7 @@ jobs:
             - run: virtualenv -p python3 venv
             - run: source venv/bin/activate
             - run: ls -la
-            - run: pip3 install -r requirements.txt
+            - run: pip3 install -r rf_requirements.txt
             - run: pip3 freeze > pip.lock
             - run: deactivate
 
