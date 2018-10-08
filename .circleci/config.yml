@@ -50,8 +50,9 @@ jobs:
             - run: sudo pip3 install virtualenv
             - run: virtualenv -p python3 venv
             - run: source venv/bin/activate
-            - run: pip install -r requirements.txt
-            - run: pip freeze > pip.lock
+            - run: ls -la
+            - run: pip3 install -r requirements.txt
+            - run: pip3 freeze > pip.lock
             - run: deactivate
 
 
