@@ -47,7 +47,7 @@ jobs:
             # - run: pipenv --version
             # - run: pipenv --python 3.5
             # - run: pipenv shell
-            - run: sudo pip install virtualenv
+            - run: sudo pip3 install virtualenv
             - run: virtualenv -p python3 venv
             - run: source venv/bin/activate
             - run: pip install -r requirements.txt
