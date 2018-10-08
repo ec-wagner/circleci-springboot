@@ -49,11 +49,11 @@ jobs:
             # - run: pipenv shell
             - run: sudo pip3 install virtualenv
             - run: virtualenv -p python3 venv
-            - run: source venv/bin/activate
+            - run: . venv/bin/activate
             - run: ls -la
             - run: pip3 install -r rf_requirements.txt
             - run: pip3 freeze > pip.lock
-            - run: deactivate
+            - run: . venv/bin/deactivate
 
 
             # Download and cache dependencies
@@ -129,7 +129,7 @@ jobs:
             - run:
                 name: Run Integration Tests
                 command: |
-                    source venv/bin/activate
+                    . venv/bin/activate
                     robot -d ./build/test-results/robot src/tests/robot/API.robot
 
             - run: curl localhost:8080    # should return Hello World
