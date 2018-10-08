@@ -48,10 +48,16 @@ jobs:
             # - run: pipenv --python 3.5
             # - run: pipenv shell
             - run: sudo pip3 install virtualenv
-            - run: virtualenv -p python3 venv
-            - run: . venv/bin/activate
+            - run:
+                name: install dependencies
+                command: |
+                    mkdir -p ./venv
+                    virtualenv ./venv
+                    . venv/bin/activate
+                    pip install -r rf_requirements.txt
+            # - run: . venv/bin/activate
             - run: ls -la
-            - run: pip install -r rf_requirements.txt
+            # - run: pip install -r rf_requirements.txt
             - run: pip freeze > pip.lock
             - run: deactivate
 
