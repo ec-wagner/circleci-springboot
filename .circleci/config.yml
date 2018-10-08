@@ -129,7 +129,7 @@ jobs:
             - run:
                 name: Run Integration Tests
                 command: |
-                    robot -d ./build/test-results/robot src/tests/robot/API.robot
+                    ~/.local/bin/robot -d ./build/test-results/robot src/tests/robot/API.robot
 
             - run: curl localhost:8080    # should return Hello World
                 # here will be actual robot tests - API, GUI
