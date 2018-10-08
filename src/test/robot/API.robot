@@ -14,8 +14,8 @@ Application is online
 
 GET Response Body
     [Documentation]  body of response is a
-    ...              type of string and
-    ...              is equal to 'Hello World'
+        ...          type of string and
+        ...          is equal to 'Hello World'
 
     GET    /
     Output    response
