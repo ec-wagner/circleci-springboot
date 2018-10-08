@@ -12,16 +12,16 @@ Application is online
     Output    request headers
 
 
-    GET Response Body
-        [Documentation]  body of response is a
-        ...              type of string and
-        ...              is equal to 'Hello World'
+GET Response Body
+    [Documentation]  body of response is a
+    ...              type of string and
+    ...              is equal to 'Hello World'
 
-        GET    /
-        Output    response
-        Output    response body
-        Output    schema response body
+    GET    /
+    Output    response
+    Output    response body
+    Output    schema response body
 
-        String    response body
-        String    response body    Hello World    maxLength=11
-        String    response body    'hello world'
+    String    response body
+    String    response body    Hello World    maxLength=11
+    String    response body    'hello world'
