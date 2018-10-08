@@ -41,21 +41,6 @@ jobs:
         steps:
             - checkout
 
-            ## Robotframework environment setup
-            - run: sudo apt install python3 python3-pip
-            #- run: python3 -m pip install --user pipenv
-            # - run: pipenv --version
-            # - run: pipenv --python 3.5
-            # - run: pipenv shell
-            # - run: sudo pip3 install virtualenv
-            # - run: virtualenv -p python3 venv
-            # - run: . venv/bin/activate
-            # - run: ls -la
-            - run: pip3 install -r rf_requirements.txt
-            - run: pip3 freeze > pip.lock
-            # - run: deactivate
-
-
             # Download and cache dependencies
             - restore_cache:
                 keys:
@@ -63,10 +48,10 @@ jobs:
                 # fallback to using the latest cache if no exact match is found
                 - javadependencies-
 
-            - restore_cache:
-                keys:
-                - pythodependencies-{{ checksum "pip.lock" }}
-                - pythodependencies-
+            # - restore_cache:
+            #     keys:
+            #     - pythodependencies-{{ checksum "pip.lock" }}
+            #     - pythodependencies-
 
             #- run: gradle dependencies    # listet sie nur! kein download!
 
@@ -75,10 +60,10 @@ jobs:
                     - ~/springboot/.gradle
                 key: javadependencies-{{ checksum "build.gradle" }}
 
-            - save_cache:
-                paths:
-                    - ~/springboot/venv
-                key: pythodependencies-{{ checksum "pip.lock" }}
+            # - save_cache:
+            #     paths:
+            #         - ~/springboot/venv
+            #     key: pythodependencies-{{ checksum "pip.lock" }}
 
             # Compile code and run unit tests
 
@@ -106,6 +91,24 @@ jobs:
         steps:
             - attach_workspace:
                 at: ~/springboot
+
+            ## Robotframework environment setup
+            # - run: python3 -m pip install --user pipenv
+            # - run: pipenv --version
+            # - run: pipenv --python 3.5
+            # - run: pipenv shell
+            # - run: sudo pip3 install virtualenv
+            # - run: virtualenv -p python3 venv
+            # - run: . venv/bin/activate
+            # - run: ls -la
+            # - run: deactivate
+
+            - run:
+                name: Setup RF environment
+                command: |
+                    sudo apt install python3 python3-pip
+                    pip3 install -r rf_requirements.txt
+                    pip3 freeze > pip.lock
 
             # Run application and execute integration tests
             - run:
