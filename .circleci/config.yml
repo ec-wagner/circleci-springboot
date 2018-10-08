@@ -53,7 +53,7 @@ jobs:
             - run: ls -la
             - run: pip3 install -r rf_requirements.txt
             - run: pip3 freeze > pip.lock
-            - run: . venv/bin/deactivate
+            - run: deactivate
 
 
             # Download and cache dependencies
