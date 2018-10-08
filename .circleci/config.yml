@@ -47,19 +47,13 @@ jobs:
             # - run: pipenv --version
             # - run: pipenv --python 3.5
             # - run: pipenv shell
-            - run: sudo pip3 install virtualenv
-            - run:
-                name: install dependencies
-                command: |
-                    mkdir -p ./venv
-                    virtualenv ./venv
-                    . venv/bin/activate
-                    pip install -r rf_requirements.txt
+            # - run: sudo pip3 install virtualenv
+            # - run: virtualenv -p python3 venv
             # - run: . venv/bin/activate
-            - run: ls -la
-            # - run: pip install -r rf_requirements.txt
-            - run: pip freeze > pip.lock
-            - run: deactivate
+            # - run: ls -la
+            - run: pip3 install -r rf_requirements.txt
+            - run: pip3 freeze > pip.lock
+            # - run: deactivate
 
 
             # Download and cache dependencies
@@ -135,7 +129,6 @@ jobs:
             - run:
                 name: Run Integration Tests
                 command: |
-                    . venv/bin/activate
                     robot -d ./build/test-results/robot src/tests/robot/API.robot
 
             - run: curl localhost:8080    # should return Hello World
