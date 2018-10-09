@@ -32,12 +32,12 @@ dependencies {
 }
 
 bootJar {
-    baseName = 'java-sucks'
+    baseName = 'java-app'
     version =  '2018-0.1'
 }
 
 bootWar {
-    baseName = 'java-sucks'
+    baseName = 'java-app'
     version =  '2018-0.1'
     classifier = 'WLAD'
 }
